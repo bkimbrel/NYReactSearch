@@ -1,9 +1,20 @@
 require('dotenv').config({path: './config/.env'});
+
 const request = require('request')
 const express = require('express');
 const bodyParser = require('body-parser');
 const articleRouter = require('./routes/article');
 const app = express()
+
+const mongoose = require('mongoose');
+const mongod = mongoose.connect(process.env.MONGODB_KEY);
+mongoose.connection.on('connected',()=>{
+  console.log('success connect Mongo');
+});
+
+mongoose.connection.on('error',function (err) {
+ console.log('Mongoose default connection error: ' + err);
+});
 
 app.use(bodyParser.json());
 app.use('/api/saved', articleRouter);
