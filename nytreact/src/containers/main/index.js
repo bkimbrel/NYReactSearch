@@ -30,6 +30,10 @@ class Main extends Component {
     if (endYear === '') {
       end_date = moment().add(1, 'y').format('YYYYMMDD')
     }
+
+    start_date = moment(start_date, 'YYYYMMDD').format('YYYYMMDD');
+    end_date = moment(end_date, 'YYYYMMDD').format('YYYYMMDD');
+
     const searchQuery = {
       q: searchTerm,
       begin_date: start_date,
@@ -48,6 +52,7 @@ class Main extends Component {
   this.setState({
     articles: articles.response.docs
   });
+
 });
 
   }
@@ -63,6 +68,19 @@ class Main extends Component {
   handleEndYearChange(e){
     this.setState({ endYear: e.target.value});
   }
+  handleSaved(e, article) {
+    e.preventDefault();
+    console.log("Log article", article);
+    fetch('/api/saved', {
+      method:'post',
+      headers:{
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(article),
+    }).then((response) => console.log("winning! saved", response))
+    .catch((err)=>console.log("eEERR", err))
+  }
+  
   render() {
     const { searchTerm, records, startYear, endYear}=this.state
     return (
@@ -80,6 +98,7 @@ class Main extends Component {
       />
       <Results
         articles={this.state.articles}
+        handleSaved={this.handleSaved}
       />
       </div>
     );

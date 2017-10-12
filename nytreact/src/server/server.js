@@ -7,7 +7,9 @@ const articleRouter = require('./routes/article');
 const app = express()
 
 const mongoose = require('mongoose');
+mongoose.Promise= Promise;
 const mongod = mongoose.connect(process.env.MONGODB_KEY);
+const PORT=process.env.PORT || 3001
 mongoose.connection.on('connected',()=>{
   console.log('success connect Mongo');
 });
@@ -34,6 +36,6 @@ app.post('/api/search', (req, res) => {
 
    });
 });
-app.listen(3001, function(){
+app.listen(PORT, function(){
   console.log('server started on 3001');
 });

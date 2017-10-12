@@ -8,7 +8,14 @@ class Results extends Component {
       <div>
         {this.props.articles.map((article, i) => {
           return (
-            <div key={`${article.headline.main}-${i}`}>{article.headline.main}</div>
+            <div>
+            <div key={`${article.headline.main}-${i}`}>
+              {article.headline.main}
+            </div>
+            <button className='btn btn-primary' onClick={(e) => this.props.handleSaved(e, article)}>
+              Save
+            </button>
+            </div>
           )
         })}
       </div>
